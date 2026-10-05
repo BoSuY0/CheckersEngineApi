@@ -11,7 +11,9 @@
 ![Tablebase](https://img.shields.io/badge/tablebase-Chinook%202--8%20pieces-8A5A3B)
 ![Tests](https://img.shields.io/badge/tests-xUnit%20v3-2EA44F)
 
-<img src="docs/board.png" width="400" alt="Test board: the engine suggests 14x23 on the sample position, and the move validates as legal">
+[Quick start](#quick-start) · [API](#api) · [How it works](#how-it-works) · [Deploying to IIS](#deploying-to-iis) · [Design decisions](#design-decisions)
+
+<img src="docs/board.png" width="820" alt="Test board: the engine suggests 14x23 on the sample position, and the move validates as legal">
 
 <sub>Test board (<code>GET /</code>) on the specification's sample position</sub>
 
