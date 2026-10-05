@@ -208,36 +208,34 @@ lines over stdin/stdout (`setPosition`, `search`, `probe`, `stop`). A host is re
 not stop after a timeout.
 
 ```mermaid
-flowchart LR
-    client(["Client or test board"]) -->|"HTTP / JSON"| api
+flowchart TD
+    client(["Client or test board"]) -->|HTTP JSON| api
     subgraph pool ["IIS application pool"]
-        api["Checkers.Api<br/>ASP.NET Core"]
+        api["Checkers.Api (ASP.NET Core)"]
     end
-    api -->|"JSON lines over stdin/stdout"| w1["KingsRowHost<br/>worker 1"]
-    api -->|"JSON lines over stdin/stdout"| w2["KingsRowHost<br/>worker 2"]
-    w1 --> dll1["Kingsrow64.dll<br/>egdb64.dll"]
-    w2 --> dll2["Kingsrow64.dll<br/>egdb64.dll"]
-    dll1 --> db[("Chinook 2–8 piece<br/>WLD databases")]
-    dll2 --> db
+    api -->|JSON lines| w1["KingsRowHost worker 1<br/>Kingsrow64.dll + egdb64.dll"]
+    api -->|JSON lines| w2["KingsRowHost worker 2<br/>Kingsrow64.dll + egdb64.dll"]
+    w1 --> db[("Chinook 2–8 piece databases")]
+    w2 --> db
 ```
 
 ### Request flow
 
 ```mermaid
 flowchart TD
-    req(["POST /v1/move/suggest"]) --> parse{"Valid PDN and<br/>a legal move exists?"}
-    parse -->|no| e422[["422"]]
+    req(["POST /v1/move/suggest"]) --> parse{"Valid PDN?"}
+    parse -->|no| e422[["422: invalid PDN or no legal move"]]
     parse -->|yes| cached{"Cached?"}
     cached -->|yes| ok(["200"])
-    cached -->|no| acquire["Acquire a worker<br/>round robin, async lock"]
-    acquire --> small{"8 pieces or fewer?"}
-    small -->|yes| probe["Probe the databases:<br/>keep the moves with the best value,<br/>10 ms KingsRow search picks one"]
-    probe -->|decided| store["Cache the answer<br/>LRU, 15 min"]
+    cached -->|no| acquire["Acquire a worker (round robin, async lock)"]
+    acquire --> small{"≤ 8 pieces?"}
+    small -->|yes| probe["Probe the databases, keep the best moves,<br/>10 ms KingsRow search picks one"]
+    small -->|no| search["KingsRow search within the level's limits"]
     probe -->|not covered| search
-    small -->|no| search["KingsRow search<br/>within the level's limits"]
-    search --> legal{"Best move or a<br/>PV move is legal?"}
-    legal -->|no| e500[["500"]]
-    legal -->|yes| store
+    probe -->|decided| store["Cache the answer (LRU, 15 min)"]
+    search --> legal{"Legal move?"}
+    legal -->|"best move or a PV move"| store
+    legal -->|none| e500[["500"]]
     store --> ok
 ```
 
