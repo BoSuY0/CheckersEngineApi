@@ -1,52 +1,77 @@
 :root {
   color-scheme: light;
-  --text: #1d1d1f;
-  --background: #f5f5f0;
-  --light-square: #ecd9b9;
-  --dark-square: #8a5a3b;
-  --highlight: #e8b82e;
-  --black-piece: #222;
-  --white-piece: #f8f8f8;
-  --error: #b3261e;
+  --text: #1f2328;
+  --muted: #59636e;
+  --border: #d1d9e0;
+  --divider: #e6eaef;
+  --page: #f6f8fa;
+  --panel: #ffffff;
+  --button: #1f2328;
+  --button-hover: #393f46;
+  --focus: #0969da;
+  --light-square: #f0d9b5;
+  --dark-square: #b58863;
+  --frame: #6f4a2f;
+  --highlight: #f6c445;
+  --legal: #1a7f37;
+  --legal-background: #dafbe1;
+  --error: #cf222e;
+  --error-background: #ffebe9;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  background: var(--background);
+  background: var(--page);
   color: var(--text);
-  font: 16px/1.4 system-ui, sans-serif;
+  font: 14px/1.5 var(--sans);
 }
 
 main {
-  max-width: 520px;
-  margin: 0 auto;
-  padding: 16px;
+  display: grid;
+  grid-template-columns: minmax(0, 600px) minmax(0, 460px);
+  grid-template-areas:
+    "title title"
+    "board panel";
+  gap: 20px 32px;
+  justify-content: center;
+  align-items: start;
+  padding: 32px 24px;
 }
 
-form {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: end;
-  margin-bottom: 16px;
+@media (max-width: 1000px) {
+  main {
+    grid-template-columns: minmax(0, 600px);
+    grid-template-areas:
+      "title"
+      "board"
+      "panel";
+  }
 }
 
-label {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
+h1 {
+  grid-area: title;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 600;
 }
 
-#position {
-  width: min(360px, 90vw);
-}
+/* Board */
 
 .board {
+  grid-area: board;
   display: grid;
   grid-template-columns: repeat(8, 1fr);
   aspect-ratio: 1;
-  margin-bottom: 16px;
-  border: 2px solid var(--dark-square);
+  container-type: inline-size;
+  border: 12px solid var(--frame);
+  border-radius: 10px;
+  box-shadow: 0 12px 32px rgba(31, 35, 40, 0.18);
 }
 
 .board div {
@@ -61,56 +86,229 @@ label {
 }
 
 .board .path {
-  box-shadow: inset 0 0 0 4px var(--highlight);
+  background: color-mix(in srgb, var(--dark-square), var(--highlight) 60%);
 }
 
 .board .number {
   position: absolute;
-  top: 2px;
-  left: 4px;
-  color: var(--light-square);
-  font-size: 11px;
+  top: 4%;
+  left: 6%;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: max(9px, 1.9cqw);
+  font-weight: 600;
+  line-height: 1;
 }
 
 .piece {
-  width: 70%;
+  position: relative;
+  width: 78%;
   aspect-ratio: 1;
   border-radius: 50%;
-  border: 2px solid #555;
+  box-shadow: 0 0.6cqw 1cqw rgba(0, 0, 0, 0.45);
+}
+
+.piece::before {
+  content: "";
+  position: absolute;
+  inset: 17%;
+  border: 0.4cqw solid var(--ring);
+  border-radius: 50%;
 }
 
 .piece.black {
-  background: var(--black-piece);
+  --ring: rgba(255, 255, 255, 0.14);
+  background: radial-gradient(circle at 50% 32%, #4d4d4d, #141414 70%);
 }
 
 .piece.white {
-  background: var(--white-piece);
+  --ring: rgba(0, 0, 0, 0.13);
+  background: radial-gradient(circle at 50% 32%, #ffffff, #e3dccf 72%);
 }
 
 .piece.king::after {
   content: "K";
+  position: absolute;
+  inset: 0;
   display: grid;
   place-items: center;
-  height: 100%;
-  color: var(--highlight);
-  font-weight: bold;
+  color: #d4a72c;
+  font: 700 3.6cqw/1 var(--sans);
 }
+
+/* Panel */
+
+.panel {
+  grid-area: panel;
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: end;
+}
+
+label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.wide {
+  flex: 1 1 100%;
+}
+
+input,
+select,
+button {
+  height: 34px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  font: 14px var(--sans);
+}
+
+input,
+select {
+  padding: 0 10px;
+  background: var(--panel);
+  color: var(--text);
+}
+
+input {
+  font: 13px var(--mono);
+}
+
+input:focus,
+select:focus {
+  border-color: var(--focus);
+  outline: 1px solid var(--focus);
+}
+
+#position {
+  width: 100%;
+}
+
+#move {
+  width: 120px;
+}
+
+button {
+  padding: 0 16px;
+  border-color: var(--button);
+  background: var(--button);
+  color: #ffffff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: var(--button-hover);
+}
+
+#validate-form {
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid var(--divider);
+}
+
+#validate-form button {
+  border-color: var(--border);
+  background: var(--panel);
+  color: var(--text);
+}
+
+#validate-form button:hover {
+  background: var(--page);
+}
+
+/* Suggestion: the best move stands out, the other fields follow as rows. */
 
 dl {
   display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 4px 12px;
+  grid-template-columns: max-content minmax(0, 1fr);
+  margin: 0;
+}
+
+dl:empty {
+  display: none;
+}
+
+dt,
+dd {
+  padding: 5px 0;
+  border-top: 1px solid var(--divider);
 }
 
 dt {
-  font-weight: bold;
+  padding-right: 16px;
+  color: var(--muted);
 }
 
 dd {
   margin: 0;
+  font: 13px/20px var(--mono);
   overflow-wrap: anywhere;
 }
 
-.error {
+dt:first-of-type,
+dd:first-of-type {
+  grid-column: 1 / -1;
+  border-top: 0;
+}
+
+dt:first-of-type {
+  padding-bottom: 0;
+}
+
+dd:first-of-type {
+  padding: 0 0 10px;
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.move {
+  white-space: nowrap;
+}
+
+output {
+  height: 24px;
+  margin-bottom: 5px;
+  padding: 0 10px;
+  border-radius: 12px;
+  background: var(--legal-background);
+  color: var(--legal);
+  font: 600 12px/24px var(--mono);
+}
+
+output[data-legal="false"] {
+  background: var(--error-background);
   color: var(--error);
+}
+
+output:empty {
+  display: none;
+}
+
+.error {
+  margin: 0;
+  padding: 10px 12px;
+  border: 1px solid #ffcecb;
+  border-radius: 6px;
+  background: var(--error-background);
+  color: var(--error);
+}
+
+.error:empty {
+  display: none;
 }

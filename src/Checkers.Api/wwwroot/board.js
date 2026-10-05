@@ -59,10 +59,20 @@ async function post(url, body) {
   return json;
 }
 
+// One unbreakable span per move: a long line wraps between moves, never after a move's hyphen.
+function movesOf(moves) {
+  return moves.flatMap((move, index) => {
+    const span = document.createElement('span');
+    span.className = 'move';
+    span.textContent = move;
+    return index === 0 ? [span] : [' ', span];
+  });
+}
+
 function showSuggestion(result) {
   const rows = {
     bestMove: result.bestMove,
-    pv: result.pv.join(' '),
+    pv: movesOf(result.pv),
     scoreOrWDL: result.scoreOrWDL,
     depth: result.depth,
     nodes: result.nodes,
@@ -74,7 +84,7 @@ function showSuggestion(result) {
     const term = document.createElement('dt');
     term.textContent = name;
     const description = document.createElement('dd');
-    description.textContent = value;
+    description.append(...[value].flat());
     return [term, description];
   }));
 }
@@ -113,6 +123,7 @@ document.getElementById('validate-form').addEventListener('submit', async (event
       move: document.getElementById('move').value,
     });
     validation.textContent = `legal: ${result.legal}`;
+    validation.dataset.legal = result.legal;
   });
 });
 
