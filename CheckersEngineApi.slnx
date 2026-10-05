@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Checkers.Api/Checkers.Api.csproj" />
+    <Project Path="src/Checkers.Application/Checkers.Application.csproj" />
+    <Project Path="src/Checkers.Domain/Checkers.Domain.csproj" />
+    <Project Path="src/Checkers.Engine.KingsRowHost/Checkers.Engine.KingsRowHost.csproj" />
+    <Project Path="src/Checkers.Engine.Protocol/Checkers.Engine.Protocol.csproj" />
+    <Project Path="src/Checkers.Engine/Checkers.Engine.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/Checkers.Api.Tests/Checkers.Api.Tests.csproj" />
+    <Project Path="tests/Checkers.Application.Tests/Checkers.Application.Tests.csproj" />
+    <Project Path="tests/Checkers.Domain.Tests/Checkers.Domain.Tests.csproj" />
+    <Project Path="tests/Checkers.Engine.Tests/Checkers.Engine.Tests.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- KingsRow and egdb are x64 Windows DLLs with process-global state, so the host is a separate win-x64 process. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+    <SelfContained>true</SelfContained>
+    <PublishSingleFile>true</PublishSingleFile>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <!-- Lets Checkers.Api copy the published single-file host next to itself. -->
+  <Target Name="GetPublishDirectory" Returns="$(MSBuildProjectDirectory)/$(PublishDir)" />
+
+  <ItemGroup>
+    <ProjectReference Include="..\Checkers.Engine.Protocol\Checkers.Engine.Protocol.csproj" />
+  </ItemGroup>
+</Project>

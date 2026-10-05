@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Checkers.Domain\Checkers.Domain.csproj" />
+  </ItemGroup>
+</Project>

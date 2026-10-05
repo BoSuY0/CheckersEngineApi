@@ -1,0 +1,6 @@
+.engine-cache/
+bin/
+obj/
+*.user
+.vs/
+TestResults/

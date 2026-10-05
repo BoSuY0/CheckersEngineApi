@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <ItemGroup>
+    <ProjectReference Include="..\Checkers.Application\Checkers.Application.csproj" />
+    <ProjectReference Include="..\Checkers.Engine\Checkers.Engine.csproj" />
+  </ItemGroup>
+
+  <!-- The win-x64 worker host is a separate executable; it is published into a KingsRowHost folder next to the API. -->
+  <PropertyGroup>
+    <KingsRowHostProject>..\Checkers.Engine.KingsRowHost\Checkers.Engine.KingsRowHost.csproj</KingsRowHostProject>
+  </PropertyGroup>
+
+  <Target Name="CopyKingsRowHost" AfterTargets="Build">
+    <MSBuild Projects="$(KingsRowHostProject)" Targets="Publish;GetPublishDirectory" RemoveProperties="PublishDir">
+      <Output TaskParameter="TargetOutputs" PropertyName="KingsRowHostPublishDir" />
+    </MSBuild>
+    <ItemGroup>
+      <KingsRowHostFile Include="$(KingsRowHostPublishDir)**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(KingsRowHostFile)" DestinationFolder="$(OutDir)KingsRowHost\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
+
+  <Target Name="PublishKingsRowHost" AfterTargets="Publish">
+    <Copy SourceFiles="@(KingsRowHostFile)" DestinationFolder="$(PublishDir)KingsRowHost\%(RecursiveDir)" SkipUnchangedFiles="true" />
+  </Target>
+</Project>

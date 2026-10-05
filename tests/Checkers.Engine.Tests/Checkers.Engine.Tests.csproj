@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Checkers.Engine\Checkers.Engine.csproj" />
+  </ItemGroup>
+
+  <!-- The host is a win-x64 executable; its conversions without native calls are compiled in here to test them on any OS. -->
+  <ItemGroup>
+    <Compile Include="..\..\src\Checkers.Engine.KingsRowHost\KingsRowBoard.cs" Link="Host\Linked\KingsRowBoard.cs" />
+    <Compile Include="..\..\src\Checkers.Engine.KingsRowHost\SearchStatus.cs" Link="Host\Linked\SearchStatus.cs" />
+    <Compile Include="..\..\src\Checkers.Engine.KingsRowHost\Native\EgdbBitboard.cs" Link="Host\Linked\EgdbBitboard.cs" />
+  </ItemGroup>
+</Project>
