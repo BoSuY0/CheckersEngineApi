@@ -223,20 +223,16 @@ flowchart TD
 
 ```mermaid
 flowchart TD
-    req(["POST /v1/move/suggest"]) --> parse{"Valid PDN?"}
-    parse -->|no| e422[["422: invalid PDN or no legal move"]]
-    parse -->|yes| cached{"Cached?"}
-    cached -->|yes| ok(["200"])
-    cached -->|no| acquire["Acquire a worker (round robin, async lock)"]
-    acquire --> small{"≤ 8 pieces?"}
-    small -->|yes| probe["Probe the databases, keep the best moves,<br/>10 ms KingsRow search picks one"]
-    small -->|no| search["KingsRow search within the level's limits"]
-    probe -->|not covered| search
-    probe -->|decided| store["Cache the answer (LRU, 15 min)"]
-    search --> legal{"Legal move?"}
-    legal -->|"best move or a PV move"| store
-    legal -->|none| e500[["500"]]
-    store --> ok
+    req(["POST /v1/move/suggest"]) --> parse{{"Valid PDN with<br/>a legal move?"}}
+    parse -->|no| e422[["422"]]
+    parse -->|yes| cached{{"Cached?"}}
+    cached -->|yes| hit(["200"])
+    cached -->|"no: next worker<br/>(round robin, async lock)"| small{{"≤ 8 pieces and<br/>the databases decide?"}}
+    small -->|yes| probe["Pick among the proven<br/>moves with a 10 ms<br/>KingsRow search"]
+    small -->|no| search["KingsRow search within<br/>the level's limits"]
+    probe --> ok(["Cache (LRU, 15 min), 200"])
+    search -->|"legal best move<br/>or PV move"| ok
+    search -->|none legal| e500[["500"]]
 ```
 
 `softTimeMs` becomes KingsRow's exact move time inside the host. `hardTimeMs` is a `CancellationToken` in the
