@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="200" viewBox="0 0 820 200" role="img" aria-label="Runtime: client, API in the IIS application pool, two KingsRow worker processes, Chinook databases">
+  <title>Runtime: client, API in the IIS application pool, two KingsRow worker processes, Chinook databases</title>
+  <style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
+.t { fill: #f0f6fc; font-size: 13px; font-weight: 600; }
+.m { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 12.5px; }
+.s { fill: #9198a1; font-size: 11px; }
+.l { fill: #9198a1; font-size: 11px; }
+.g { fill: #9198a1; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+.node { fill: rgba(110,118,129,0.1); stroke: #3d444d; }
+.group { fill: rgba(110,118,129,0.04); stroke: #3d444d; stroke-dasharray: 4 3; }
+.edge { fill: none; stroke: #7d8590; stroke-width: 1.5; }
+.head { fill: #7d8590; }
+.accent { fill: rgba(56,139,253,0.15); stroke: #1f6feb; }
+.accent-t { fill: #4493f8; }
+.ok { fill: rgba(46,160,67,0.15); stroke: #238636; }
+.ok-t { fill: #3fb950; }
+.err { fill: rgba(248,81,73,0.12); stroke: #da3633; }
+.err-t { fill: #f85149; }
+.warn { fill: rgba(187,128,9,0.15); stroke: #9e6a03; }
+.warn-t { fill: #d29922; }
+.chip { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 11.5px; font-weight: 600; }
+  </style>
+  <defs><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,1 L9,5 L0,9 Z" class="head"/></marker></defs>
+  <rect x="12" y="82" width="88" height="44" rx="8" class="node"/>
+  <text x="56.0" y="101.5" text-anchor="middle" class="t">Client</text>
+  <text x="56.0" y="117.5" text-anchor="middle" class="s">board · curl</text>
+  <path d="M100,104 L175,104" class="edge" marker-end="url(#head)"/>
+  <text x="132" y="96" text-anchor="middle" class="l">HTTP</text>
+  <rect x="164" y="52" width="184" height="94" rx="12" class="group"/>
+  <text x="176" y="69" text-anchor="start" class="g">IIS APP POOL</text>
+  <rect x="176" y="78" width="160" height="52" rx="8" class="node"/>
+  <text x="256.0" y="101.5" text-anchor="middle" class="t">Checkers.Api</text>
+  <text x="256.0" y="117.5" text-anchor="middle" class="s">ASP.NET Core</text>
+  <text x="388" y="96" text-anchor="middle" class="l">JSON lines</text>
+  <text x="388" y="121" text-anchor="middle" class="l">round robin</text>
+  <rect x="460" y="12" width="200" height="172" rx="12" class="group"/>
+  <text x="472" y="29" text-anchor="start" class="g">WORKER PROCESSES</text>
+  <rect x="472" y="37" width="176" height="50" rx="8" class="node"/>
+  <text x="560.0" y="59.5" text-anchor="middle" class="t">KingsRowHost.exe</text>
+  <text x="560.0" y="75.5" text-anchor="middle" class="s">Kingsrow64.dll · egdb64.dll</text>
+  <path d="M336,104 L420,104 Q428,104 428,96 L428,70 Q428,62 436,62 L471,62" class="edge" marker-end="url(#head)"/>
+  <path d="M648,62 L676,62 Q684,62 684,70 L684,96 Q684,104 692,104 L703,104" class="edge" marker-end="url(#head)"/>
+  <rect x="472" y="121" width="176" height="50" rx="8" class="node"/>
+  <text x="560.0" y="143.5" text-anchor="middle" class="t">KingsRowHost.exe</text>
+  <text x="560.0" y="159.5" text-anchor="middle" class="s">Kingsrow64.dll · egdb64.dll</text>
+  <path d="M336,104 L420,104 Q428,104 428,112 L428,138 Q428,146 436,146 L471,146" class="edge" marker-end="url(#head)"/>
+  <path d="M648,146 L676,146 Q684,146 684,138 L684,112 Q684,104 692,104 L703,104" class="edge" marker-end="url(#head)"/>
+  <path d="M704,75 L704,133 A52.0,7 0 0 0 808,133 L808,75 A52.0,7 0 0 0 704,75 Z" class="node"/>
+  <ellipse cx="756.0" cy="75" rx="52.0" ry="7" class="node"/>
+  <text x="756.0" y="105.0" text-anchor="middle" class="t">Chinook DB</text>
+  <text x="756.0" y="121.0" text-anchor="middle" class="s">2–8 pieces</text>
+</svg>

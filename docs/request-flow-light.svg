@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="600" viewBox="0 0 820 600" role="img" aria-label="Request flow of POST /v1/move/suggest">
+  <title>Request flow of POST /v1/move/suggest</title>
+  <style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
+.t { fill: #1f2328; font-size: 13px; font-weight: 600; }
+.m { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 12.5px; }
+.s { fill: #59636e; font-size: 11px; }
+.l { fill: #59636e; font-size: 11px; }
+.g { fill: #59636e; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+.node { fill: #ffffff; stroke: #d1d9e0; }
+.group { fill: #f6f8fa; stroke: #c8d1da; stroke-dasharray: 4 3; }
+.edge { fill: none; stroke: #8c959f; stroke-width: 1.5; }
+.head { fill: #8c959f; }
+.accent { fill: #ddf4ff; stroke: #54aeff; }
+.accent-t { fill: #0969da; }
+.ok { fill: #dafbe1; stroke: #4ac26b; }
+.ok-t { fill: #1a7f37; }
+.err { fill: #ffebe9; stroke: #ff8182; }
+.err-t { fill: #cf222e; }
+.warn { fill: #fff8c5; stroke: #d4a72c; }
+.warn-t { fill: #9a6700; }
+.chip { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 11.5px; font-weight: 600; }
+  </style>
+  <defs><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,1 L9,5 L0,9 Z" class="head"/></marker></defs>
+  <rect x="170.0" y="12" width="200" height="32" rx="8" class="accent"/>
+  <text x="270.0" y="32.5" text-anchor="middle" class="t m accent-t">POST /v1/move/suggest</text>
+  <path d="M270.0,44 L270.0,71" class="edge" marker-end="url(#head)"/>
+  <rect x="150" y="72" width="240" height="48" rx="8" class="node"/>
+  <text x="270.0" y="93.5" text-anchor="middle" class="t">Parse and normalize PDN</text>
+  <text x="270.0" y="109.5" text-anchor="middle" class="s">squares · piece counts</text>
+  <path d="M390,96 L566,96" class="edge" marker-end="url(#head)"/>
+  <text x="478.0" y="90" text-anchor="middle" class="l">invalid PDN or no legal move</text>
+  <rect x="567.0" y="85.0" width="46" height="22" rx="11.0" class="err"/>
+  <text x="590" y="100" text-anchor="middle" class="chip err-t">422</text>
+  <path d="M270.0,120 L270.0,155" class="edge" marker-end="url(#head)"/>
+  <rect x="150" y="156" width="240" height="48" rx="8" class="node"/>
+  <text x="270.0" y="177.5" text-anchor="middle" class="t">Look up the cache</text>
+  <text x="270.0" y="193.5" text-anchor="middle" class="s">canonical PDN + limits</text>
+  <path d="M390,180 L566,180" class="edge" marker-end="url(#head)"/>
+  <text x="478.0" y="174" text-anchor="middle" class="l">hit</text>
+  <rect x="567.0" y="169.0" width="46" height="22" rx="11.0" class="ok"/>
+  <text x="590" y="184" text-anchor="middle" class="chip ok-t">200</text>
+  <path d="M270.0,204 L270.0,239" class="edge" marker-end="url(#head)"/>
+  <text x="278.0" y="226" text-anchor="start" class="l">miss</text>
+  <rect x="150" y="240" width="240" height="48" rx="8" class="node"/>
+  <text x="270.0" y="261.5" text-anchor="middle" class="t">Acquire a worker</text>
+  <text x="270.0" y="277.5" text-anchor="middle" class="s">round robin · async lock</text>
+  <rect x="480" y="236" width="220" height="56" rx="8" class="node"/>
+  <text x="590.0" y="261.5" text-anchor="middle" class="t">Probe Chinook DB</text>
+  <text x="590.0" y="277.5" text-anchor="middle" class="s">10 ms search picks a proven move</text>
+  <path d="M390,264 L479,264" class="edge" marker-end="url(#head)"/>
+  <text x="435.0" y="258" text-anchor="middle" class="l">≤ 8 pieces</text>
+  <path d="M270.0,288 L270.0,323" class="edge" marker-end="url(#head)"/>
+  <text x="278.0" y="310" text-anchor="start" class="l">&gt; 8 pieces</text>
+  <rect x="150" y="324" width="240" height="48" rx="8" class="node"/>
+  <text x="270.0" y="345.5" text-anchor="middle" class="t">KingsRow search</text>
+  <text x="270.0" y="361.5" text-anchor="middle" class="s">level limits · softTimeMs</text>
+  <path d="M590,292 L590,340 Q590,348 582,348 L391,348" class="edge" marker-end="url(#head)"/>
+  <text x="598" y="314" text-anchor="start" class="l">not decided</text>
+  <path d="M270.0,372 L270.0,407" class="edge" marker-end="url(#head)"/>
+  <rect x="150" y="408" width="240" height="48" rx="8" class="node"/>
+  <text x="270.0" y="429.5" text-anchor="middle" class="t">Pick the first legal move</text>
+  <text x="270.0" y="445.5" text-anchor="middle" class="s">best move, then PV moves</text>
+  <path d="M390,432 L566,432" class="edge" marker-end="url(#head)"/>
+  <text x="478.0" y="426" text-anchor="middle" class="l">none legal</text>
+  <rect x="567.0" y="421.0" width="46" height="22" rx="11.0" class="err"/>
+  <text x="590" y="436" text-anchor="middle" class="chip err-t">500</text>
+  <path d="M270.0,456 L270.0,491" class="edge" marker-end="url(#head)"/>
+  <rect x="150" y="492" width="240" height="48" rx="8" class="node"/>
+  <text x="270.0" y="513.5" text-anchor="middle" class="t">Cache the answer</text>
+  <text x="270.0" y="529.5" text-anchor="middle" class="s">LRU · 15 minutes</text>
+  <path d="M700,264 L752,264 Q760,264 760,272 L760,508 Q760,516 752,516 L391,516" class="edge" marker-end="url(#head)"/>
+  <text x="730" y="258" text-anchor="middle" class="l">decided</text>
+  <path d="M270.0,540 L270.0,564" class="edge" marker-end="url(#head)"/>
+  <rect x="247.0" y="565.0" width="46" height="22" rx="11.0" class="ok"/>
+  <text x="270.0" y="580" text-anchor="middle" class="chip ok-t">200</text>
+  <path d="M130,240 L126.0,240.0 Q122,240 122.0,244.0 L122.0,452.0 Q122,456 126.0,456.0 L130,456" class="edge"/>
+  <text x="70" y="342.0" text-anchor="middle" class="l">hardTimeMs</text>
+  <rect x="47.0" y="349.0" width="46" height="22" rx="11.0" class="warn"/>
+  <text x="70" y="364.0" text-anchor="middle" class="chip warn-t">504</text>
+</svg>

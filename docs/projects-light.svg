@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="820" height="364" viewBox="0 0 820 364" role="img" aria-label="Project references">
+  <title>Project references</title>
+  <style>
+text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; }
+.t { fill: #1f2328; font-size: 13px; font-weight: 600; }
+.m { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 12.5px; }
+.s { fill: #59636e; font-size: 11px; }
+.l { fill: #59636e; font-size: 11px; }
+.g { fill: #59636e; font-size: 10px; font-weight: 600; letter-spacing: .08em; }
+.node { fill: #ffffff; stroke: #d1d9e0; }
+.group { fill: #f6f8fa; stroke: #c8d1da; stroke-dasharray: 4 3; }
+.edge { fill: none; stroke: #8c959f; stroke-width: 1.5; }
+.head { fill: #8c959f; }
+.accent { fill: #ddf4ff; stroke: #54aeff; }
+.accent-t { fill: #0969da; }
+.ok { fill: #dafbe1; stroke: #4ac26b; }
+.ok-t { fill: #1a7f37; }
+.err { fill: #ffebe9; stroke: #ff8182; }
+.err-t { fill: #cf222e; }
+.warn { fill: #fff8c5; stroke: #d4a72c; }
+.warn-t { fill: #9a6700; }
+.chip { font-family: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace; font-size: 11.5px; font-weight: 600; }
+  </style>
+  <defs><marker id="head" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto" markerUnits="userSpaceOnUse"><path d="M0,1 L9,5 L0,9 Z" class="head"/></marker></defs>
+  <rect x="24.0" y="16" width="252" height="52" rx="8" class="accent"/>
+  <text x="150.0" y="39.5" text-anchor="middle" class="t m accent-t">Checkers.Api</text>
+  <text x="150.0" y="55.5" text-anchor="middle" class="s">controllers · composition root · board</text>
+  <rect x="544.0" y="16" width="252" height="52" rx="8" class="accent"/>
+  <text x="670.0" y="39.5" text-anchor="middle" class="t m accent-t">Checkers.Engine.KingsRowHost</text>
+  <text x="670.0" y="55.5" text-anchor="middle" class="s">x64 worker exe · P/Invoke</text>
+  <rect x="300.0" y="108" width="220" height="52" rx="8" class="node"/>
+  <text x="410.0" y="131.5" text-anchor="middle" class="t m">Checkers.Engine</text>
+  <text x="410.0" y="147.5" text-anchor="middle" class="s">worker pool · implements ports</text>
+  <rect x="24.0" y="200" width="252" height="52" rx="8" class="node"/>
+  <text x="150.0" y="223.5" text-anchor="middle" class="t m">Checkers.Application</text>
+  <text x="150.0" y="239.5" text-anchor="middle" class="s">use cases · ports · cache</text>
+  <rect x="544.0" y="200" width="252" height="52" rx="8" class="node"/>
+  <text x="670.0" y="223.5" text-anchor="middle" class="t m">Checkers.Engine.Protocol</text>
+  <text x="670.0" y="239.5" text-anchor="middle" class="s">JSON-lines messages</text>
+  <rect x="24.0" y="292" width="252" height="52" rx="8" class="node"/>
+  <text x="150.0" y="315.5" text-anchor="middle" class="t m">Checkers.Domain</text>
+  <text x="150.0" y="331.5" text-anchor="middle" class="s">rules · PDN · moves</text>
+  <path d="M150,68 L150,199" class="edge" marker-end="url(#head)"/>
+  <path d="M276.0,42.0 L402,42.0 Q410,42.0 410,50.0 L410,107" class="edge" marker-end="url(#head)"/>
+  <path d="M710,68 L710,199" class="edge" marker-end="url(#head)"/>
+  <path d="M520.0,134.0 L622,134.0 Q630,134.0 630,142.0 L630,199" class="edge" marker-end="url(#head)"/>
+  <path d="M360,160 L360,218.0 Q360,226.0 352,226.0 L277.0,226.0" class="edge" marker-end="url(#head)"/>
+  <path d="M360,160 L360,310.0 Q360,318.0 352,318.0 L277.0,318.0" class="edge" marker-end="url(#head)"/>
+  <path d="M150,252 L150,291" class="edge" marker-end="url(#head)"/>
+  <rect x="520" y="312.0" width="16" height="12" rx="3" class="accent"/>
+  <text x="542" y="322.0" text-anchor="start" class="s">executable</text>
+  <rect x="628" y="312.0" width="16" height="12" rx="3" class="node"/>
+  <text x="650" y="322.0" text-anchor="start" class="s">library</text>
+  <path d="M712,318.0 L738,318.0" class="edge" marker-end="url(#head)"/>
+  <text x="744" y="322.0" text-anchor="start" class="l">reference</text>
+</svg>
