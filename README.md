@@ -66,7 +66,10 @@ Open http://localhost:5080 for the test board, or call the API:
 ```bash
 curl -s http://localhost:5080/v1/move/suggest -H 'Content-Type: application/json' -d '{
   "gameId": "checkers-8x8",
-  "state": { "notation": "PDN", "position": "B:W18,19,22,25,27,28,30,32:B1,5,6,7,10,12,14,16" },
+  "state": {
+    "notation": "PDN",
+    "position": "B:W18,19,22,25,27,28,30,32:B1,5,6,7,10,12,14,16"
+  },
   "level": "strong"
 }'
 ```
@@ -78,7 +81,10 @@ curl -s http://localhost:5080/v1/move/suggest -H 'Content-Type: application/json
 ```json
 {
   "gameId": "checkers-8x8",
-  "state": { "notation": "PDN", "position": "B:W18,19,22,25,27,28,30,32:B1,5,6,7,10,12,14,16" },
+  "state": {
+    "notation": "PDN",
+    "position": "B:W18,19,22,25,27,28,30,32:B1,5,6,7,10,12,14,16"
+  },
   "level": "strong",
   "limits": { "maxDepth": 18, "softTimeMs": 500, "hardTimeMs": 1200 }
 }
