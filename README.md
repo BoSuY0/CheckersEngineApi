@@ -13,9 +13,9 @@
 
 [Quick start](#quick-start) · [API](#api) · [How it works](#how-it-works) · [Deploying to IIS](#deploying-to-iis) · [Design decisions](#design-decisions)
 
-<img src="docs/board.png" width="820" alt="Test board: the engine suggests 14x23 on the sample position, and the move validates as legal">
+<img src="docs/board.png" width="820" alt="Test board: a game against the engine, which answered 10-14 with 24-19; the selected piece on 14 shows its landing squares">
 
-<sub>Test board (<code>GET /</code>) on the specification's sample position</sub>
+<sub>Test board (<code>GET /</code>): a game against the engine</sub>
 
 </div>
 
@@ -63,7 +63,7 @@ export Engine__Databases="Z:$(pwd | tr / '\\')\\.engine-cache\\chinook-db"
 dotnet run --project src/Checkers.Api
 ```
 
-Open http://localhost:5080 for the test board, or call the API:
+Open http://localhost:5080 to play against the engine on the test board, or call the API:
 
 ```bash
 curl -s http://localhost:5080/v1/move/suggest -H 'Content-Type: application/json' -d '{
@@ -166,6 +166,27 @@ Errors are RFC 7807 problem details.
 Returns `{ "legal": true }` or `{ "legal": false }`. Captures can be short (`6x24`) or full (`6x15x24`).
 A malformed position or move gets `422`.
 
+### `POST /v1/move/legal`
+
+Not in the specification: it lets the test board play games without checkers rules of its own.
+
+```json
+{ "position": "B:W18,19,22,25,27,28,30,32:B1,5,6,7,10,12,14,16" }
+```
+
+```json
+{
+  "position": "B:W18,19,22,25,27,28,30,32:B1,5,6,7,10,12,14,16",
+  "moves": [
+    { "move": "14x23", "position": "W:W19,22,25,27,28,30,32:B1,5,6,7,10,12,16,23" },
+    { "move": "16x23", "position": "W:W18,22,25,27,28,30,32:B1,5,6,7,10,12,14,23" }
+  ]
+}
+```
+
+Returns the canonical position and every legal move with the position it leads to. Empty `moves` means the side
+to move has lost. A malformed position gets `422`.
+
 ### `GET /healthz`
 
 Returns `{ "ok": true, "workers": 2 }`: `ok` is `false` until every configured worker is ready, and `workers` counts the
@@ -173,8 +194,10 @@ ready ones. Always `200`.
 
 ### `GET /`
 
-The test board: draws the returned position, highlights the suggested move and validates a typed move. It calls only
-the endpoints above and has no checkers rules of its own.
+The test board: a game against the engine. Click a piece and each square it lands on; the engine answers through
+`/v1/move/suggest`, and the panel shows its search. **Engine move** makes the engine play the side to move (to play
+White, or to continue), **Load** starts from any PDN position, and **Validate** checks a typed move. The page has no
+checkers rules of its own: it plays the moves that `/v1/move/legal` lists.
 
 ## How it works
 
@@ -246,7 +269,7 @@ dotnet test --solution CheckersEngineApi.slnx
 | Project | Covers |
 |---|---|
 | `Checkers.Domain.Tests` | PDN parsing and validation, canonical form, move generation (mandatory captures, multi-jumps, crowning), notation |
-| `Checkers.Application.Tests` | Suggest flow with a fake engine, database path, levels and limits, cache expiry and eviction, validation |
+| `Checkers.Application.Tests` | Suggest flow with a fake engine, database path, levels and limits, cache expiry and eviction, validation, legal moves |
 | `Checkers.Engine.Tests` | Worker pool (round robin, locks, restarts, timeouts), protocol, host board and status-line conversions |
 | `Checkers.Api.Tests` | HTTP contract: JSON shapes, `400` / `422` / `504`, health, request log, test board |
 
@@ -292,6 +315,8 @@ Two end-to-end tests run the real KingsRow host when `CHECKERS_KINGSROW_HOST`, `
 - **`strong` uses 500 ms**, the low end of 500–600 ms, to stay under the 600 ms acceptance limit.
 - **No randomness**: opening book off, one search thread per worker. The cache keeps answers stable for its TTL.
 - **Cache key** = canonical PDN + effective limits. Only successful answers are cached.
+- **The test board plays through the API**: `POST /v1/move/legal`, the one endpoint beyond the specification, lists
+  each legal move with its resulting position, so checkers rules stay in the Domain only.
 - **The specification's sample response is not a valid answer** (`22-18x11-7` is a White move in a Black-to-move
   position). Only its shape is kept.
 - **"Try the next PV move"**: the first legal move among the best move and the PV is played, otherwise `500`. `pv` is
