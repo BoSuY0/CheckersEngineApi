@@ -9,13 +9,20 @@
 </head>
 <body>
   <main>
-    <h1>Checkers engine test board</h1>
+    <header>
+      <h1>Checkers engine test board</h1>
+      <p class="hint">Click a piece, then each square it lands on; the engine answers for the other side.</p>
+    </header>
     <div id="board" class="board" aria-label="Board"></div>
     <section class="panel">
-      <form id="suggest-form">
+      <p id="status" class="status" role="status"></p>
+      <form id="position-form">
         <label class="wide">Position (PDN)
-          <input id="position" value="B:W18,19,22,25,27,28,30,32:B1,5,6,7,10,12,14,16" required spellcheck="false">
+          <input id="position" value="B:W21-32:B1-12" required spellcheck="false">
         </label>
+        <button type="submit" class="secondary">Load</button>
+      </form>
+      <form id="suggest-form">
         <label>Level
           <select id="level">
             <option value="">default</option>
@@ -24,14 +31,15 @@
             <option value="strong">strong</option>
           </select>
         </label>
-        <button type="submit">Suggest</button>
+        <button type="submit">Engine move</button>
+        <button type="button" id="new-game" class="secondary">New game</button>
       </form>
       <dl id="suggestion"></dl>
       <form id="validate-form">
         <label>Move
-          <input id="move" placeholder="16x23" required spellcheck="false">
+          <input id="move" placeholder="11-15" required spellcheck="false">
         </label>
-        <button type="submit">Validate</button>
+        <button type="submit" class="secondary">Validate</button>
         <output id="validation"></output>
       </form>
       <p id="error" class="error" role="alert"></p>

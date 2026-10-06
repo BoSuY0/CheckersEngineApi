@@ -54,8 +54,15 @@ main {
   }
 }
 
-h1 {
+header {
   grid-area: title;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 16px;
+}
+
+h1 {
   margin: 0;
   font-size: 20px;
   font-weight: 600;
@@ -66,7 +73,7 @@ h1 {
 .board {
   grid-area: board;
   display: grid;
-  grid-template-columns: repeat(8, 1fr);
+  grid-template: repeat(8, minmax(0, 1fr)) / repeat(8, minmax(0, 1fr));
   aspect-ratio: 1;
   container-type: inline-size;
   border: 12px solid var(--frame);
@@ -87,6 +94,29 @@ h1 {
 
 .board .path {
   background: color-mix(in srgb, var(--dark-square), var(--highlight) 60%);
+}
+
+.board .selected {
+  background: color-mix(in srgb, var(--dark-square), var(--highlight) 85%);
+}
+
+.board .movable,
+.board .target {
+  cursor: pointer;
+}
+
+.board .movable:hover .piece {
+  outline: 0.5cqw solid var(--highlight);
+  outline-offset: 0.3cqw;
+}
+
+/* A landing square of the selected piece. */
+.board .target::after {
+  content: "";
+  width: 28%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: rgba(31, 35, 40, 0.3);
 }
 
 .board .number {
@@ -142,11 +172,42 @@ h1 {
   align-self: stretch;
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  padding: 20px;
+  gap: 10px;
+  padding: 18px 20px;
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 12px;
+}
+
+.status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.status::before {
+  content: "";
+  flex: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(31, 35, 40, 0.3);
+}
+
+.status[data-side="black"]::before {
+  background: #1f1f1f;
+}
+
+.status[data-side="white"]::before {
+  background: #f3efe6;
+}
+
+.hint {
+  margin: 0;
+  color: var(--muted);
 }
 
 form {
@@ -165,7 +226,8 @@ label {
 }
 
 .wide {
-  flex: 1 1 100%;
+  flex: 1;
+  min-width: 0;
 }
 
 input,
@@ -217,17 +279,17 @@ button:hover {
 
 #validate-form {
   margin-top: auto;
-  padding-top: 16px;
+  padding-top: 12px;
   border-top: 1px solid var(--divider);
 }
 
-#validate-form button {
+button.secondary {
   border-color: var(--border);
   background: var(--panel);
   color: var(--text);
 }
 
-#validate-form button:hover {
+button.secondary:hover {
   background: var(--page);
 }
 
@@ -245,7 +307,7 @@ dl:empty {
 
 dt,
 dd {
-  padding: 5px 0;
+  padding: 4px 0;
   border-top: 1px solid var(--divider);
 }
 
@@ -271,8 +333,8 @@ dt:first-of-type {
 }
 
 dd:first-of-type {
-  padding: 0 0 10px;
-  font-size: 26px;
+  padding: 0 0 8px;
+  font-size: 24px;
   font-weight: 600;
   line-height: 1.25;
 }

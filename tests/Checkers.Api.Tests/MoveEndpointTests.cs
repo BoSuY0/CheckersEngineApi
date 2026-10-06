@@ -142,6 +142,27 @@ public sealed class MoveEndpointTests : IAsyncDisposable
         await AssertProblemAsync(HttpStatusCode.UnprocessableEntity, response);
     }
 
+    [Fact]
+    public async Task Legal_Position_ReturnsMovesWithResultingPositions()
+    {
+        var response = await PostAsync("/v1/move/legal", new { position = SpecPosition });
+
+        Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        Assert.Equal(
+            $$"""{"position":"{{SpecPosition}}","moves":[""" +
+            """{"move":"14x23","position":"W:W19,22,25,27,28,30,32:B1,5,6,7,10,12,16,23"},""" +
+            """{"move":"16x23","position":"W:W18,22,25,27,28,30,32:B1,5,6,7,10,12,14,23"}]}""",
+            await response.ReadCompactJsonAsync());
+    }
+
+    [Fact]
+    public async Task Legal_InvalidPdn_Returns422()
+    {
+        var response = await PostAsync("/v1/move/legal", new { position = "B:W18:B33" });
+
+        await AssertProblemAsync(HttpStatusCode.UnprocessableEntity, response);
+    }
+
     public ValueTask DisposeAsync() => _factory.DisposeAsync();
 
     private static async Task AssertProblemAsync(HttpStatusCode expected, HttpResponseMessage response)

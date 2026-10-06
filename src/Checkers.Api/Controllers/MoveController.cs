@@ -11,6 +11,7 @@ namespace Checkers.Api.Controllers;
 public sealed class MoveController(
     SuggestMoveService suggestions,
     ValidateMoveService validation,
+    LegalMovesService legalMoves,
     StrengthPolicy policy,
     TimeProvider timeProvider,
     ILogger<MoveController> logger) : ControllerBase
@@ -46,4 +47,8 @@ public sealed class MoveController(
     [HttpPost("validate")]
     public ValidateMoveResponse Validate(ValidateMoveRequest request) =>
         new(validation.IsLegal(request.Position, request.Move));
+
+    [HttpPost("legal")]
+    public LegalMovesResponse Legal(LegalMovesRequest request) =>
+        LegalMovesResponse.From(legalMoves.List(request.Position));
 }

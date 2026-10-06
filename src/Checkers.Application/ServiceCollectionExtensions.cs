@@ -21,6 +21,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<StrengthPolicy>();
         services.AddSingleton<SuggestMoveService>();
         services.AddSingleton<ValidateMoveService>();
+        services.AddSingleton<LegalMovesService>();
         services.AddSingleton<HealthService>();
         return services;
     }
